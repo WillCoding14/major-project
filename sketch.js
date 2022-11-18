@@ -12,7 +12,11 @@ class Player{
   }
 }
 
-class 
+class Platform{
+  constructor(){
+    
+  }
+}
 
 
 function setup() {
