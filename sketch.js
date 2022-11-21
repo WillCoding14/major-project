@@ -21,9 +21,10 @@ class Platform{
     this.platformY = y;
     this.platformW = w;
     this.platformH = h;
+  }
 
-    this.dx = 1;
-    this.dy = 1;
+  display(){
+    
   }
 }
 
