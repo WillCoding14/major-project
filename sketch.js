@@ -5,6 +5,7 @@
 
 
 let scr = 0;
+let state = "start";
 
 class Player{
   constructor(){
@@ -24,7 +25,13 @@ class Platform{
   }
 
   display(){
-    
+    rectMode(CENTER);
+    rect(this.platformX, this.platformY, this.platformW, this.platformH);
+
+  }
+
+  isColliding(x, y){
+
   }
 }
 
