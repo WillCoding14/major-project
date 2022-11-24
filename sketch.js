@@ -3,40 +3,48 @@
 // let date = November 17, 2022;
 //}
 
-
-
-let scr = 0;
-let state = "start";
-let player = new Player(mouseX, mouseY);
-let platform = new Platform(200, 200, 100, 150);
+let hit = false;
 
 class Player{
-  constructor(x, y){
-    this.playerX = x;
-    this.playerY = y;
-    this.playerW = 200;
-    this.playerH = 200;
+  constructor(x, y, w, h){
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+  }
+
+  display(){
+    rect(this.x, this.y, this.w, this.h);
   }
 }
 
 class Platform{
   constructor(x, y, w, h){
-    this.platformX = x;
-    this.platformY = y;
-    this.platformW = w;
-    this.platformH = h;
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
   }
 
   display(){
-    rectMode(CORNER);
-    rect(this.platformX, this.platformY, this.platformW, this.platformH);
+    rect(this.x, this.y, this.w, this.h);
   }
 }
+
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
 
+
 function draw() {
-  background(220);
+  background(255);
+  let player = new Player(0, height-50, width, 50);
+  let newPlatform = new Platform(mouseX, mouseY, 50, 75);
+
+  hit = collideRectRect(newPlatform.x, newPlatform.y, newPlatform.w, newPlatform.h, player.x, player.y, player.w, player.h);
+
+  stroke(hit ? color("red") : 0);
+  print("colliding?", hit);
 }
