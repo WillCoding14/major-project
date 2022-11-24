@@ -4,13 +4,16 @@
 //}
 
 
+
 let scr = 0;
 let state = "start";
+let player = new Player(mouseX, mouseY);
+let platform = new Platform(200, 200, 100, 150);
 
 class Player{
-  constructor(){
-    this.playerX = 0;
-    this.playerY = 0;
+  constructor(x, y){
+    this.playerX = x;
+    this.playerY = y;
     this.playerW = 200;
     this.playerH = 200;
   }
@@ -25,16 +28,10 @@ class Platform{
   }
 
   display(){
-    rectMode(CENTER);
+    rectMode(CORNER);
     rect(this.platformX, this.platformY, this.platformW, this.platformH);
-
-  }
-
-  isColliding(x, y){
-
   }
 }
-
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
