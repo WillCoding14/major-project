@@ -12,6 +12,8 @@ At a base level, the goal is simply to climb up a series of obstacles
 - Different "screens" to jump between
 - An end goal
 - Start and victory screens
+- Music - depends on which zone player is on
+- Sound effects
 
 ## Nice to have list
 

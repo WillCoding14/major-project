@@ -20,6 +20,11 @@ class Player{
   }
 }
 
+class Platform{
+
+}
+
+let thePLatforms = [];
 let hit = false;
 let player;
 
