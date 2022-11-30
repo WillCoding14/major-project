@@ -1,46 +1,20 @@
-// Jump King(){
-// let name = Will;
-// let date = November 17, 2022;
-//}
-class Player{
-  constructor(x, y, w, h){
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-  }
+let ball, ground;
 
-  display(){
-    rect(this.x, this.y, this.w, this.h);
-  }
+function setup() {
+  new Canvas(windowWidth, windowHeight);
+  world.gravity.y = 10;
 
-  update(){
-    this.x = mouseX;
-    this.y = mouseY;
-  }
-}
+  ball = new Sprite();
+  ball.diameter = 50;
+  ball.y = 30;
 
-class Platform{
-
-}
-
-let thePLatforms = [];
-let hit = false;
-let player;
-
-function setup(){
-  createCanvas(windowWidth, windowHeight);
-  player = new Player(mouseX, mouseY, 100, 100);
+  ground = new Sprite();
+  ground.collider = "static";
+  ground.y = 190;
+  ground.w = 400;
+  ground.h = 5;
 }
 
 function draw() {
-  background(255);
-  rect(200, 200, 100, 150);
-  player.display();
-  player.update();
-
-  hit = collideRectRect(200, 200, 100, 150, player.x, player.y, player.w, player.h);
-
-  stroke(hit ? color("red") : 0);
-  print("colliding?", hit);
+  clear();
 }

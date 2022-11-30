@@ -22,6 +22,10 @@
     },
     "globals": {
 
+      "Canvas": true,
+      "Sprite": true,
+      "world": true,
+      
       "width": true,
       "height": true,
       "drawingContext": true,
