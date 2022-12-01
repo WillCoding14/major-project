@@ -1,20 +1,30 @@
-let ball, ground;
+let player;
+let dummy;
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
   world.gravity.y = 10;
 
-  ball = new Sprite();
-  ball.diameter = 50;
-  ball.y = 30;
+  player = new Sprite();
+  player.w = 100;
+  player.h = 100;
+  player.y = height/2;
+  player.x = width/2 + 200;
 
-  ground = new Sprite();
-  ground.collider = "static";
-  ground.y = 190;
-  ground.w = 400;
-  ground.h = 5;
+  dummy = new Sprite();
+  dummy.w = 100;
+  dummy.h = 100;
+  dummy.y = height/2;
+  dummy.x = width/2;
+  dummy.collider = "static";
+  player.direction = 190;
+  player.speed = 2;
 }
 
-function draw() {
+function draw(){
+  if (mouse.presses()) {
+    //        (position, speed)
+    player.moveTo(mouse, 100);
+  }
   clear();
 }

@@ -25,6 +25,8 @@
       "Canvas": true,
       "Sprite": true,
       "world": true,
+      "mouse": true,
+      "kb": true,
       
       "width": true,
       "height": true,
