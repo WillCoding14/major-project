@@ -22,9 +22,6 @@ function setup() {
 }
 
 function draw(){
-  if (mouse.presses()) {
-    //        (position, speed)
-    player.moveTo(mouse, 100);
-  }
-  clear();
+  if (kb.pressing('left')) player.vel.x = -3;
+  else player.vel.x = 0;
 }
