@@ -27,6 +27,7 @@
       "world": true,
       "mouse": true,
       "kb": true,
+      "spriteArt": true,
       
       "width": true,
       "height": true,

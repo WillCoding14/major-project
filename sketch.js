@@ -1,27 +1,21 @@
-let player;
-let dummy;
+let player, platform;
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
-  world.gravity.y = 10;
+  world.gravity.y = 15;
 
-  player = new Sprite();
-  player.w = 100;
-  player.h = 100;
-  player.y = height/2;
-  player.x = width/2 + 200;
+  player = new Sprite(width/2, 300, 100, 100, "dynamic");
+  platform = new Sprite(width/2, 400, width, 50, "static");
 
-  dummy = new Sprite();
-  dummy.w = 100;
-  dummy.h = 100;
-  dummy.y = height/2;
-  dummy.x = width/2;
-  dummy.collider = "static";
-  player.direction = 190;
-  player.speed = 2;
 }
 
-function draw(){
-  if (kb.pressing('left')) player.vel.x = -3;
-  else player.vel.x = 0;
+function draw() {
+  clear();
+
+  if (player.colliding(platform)){
+    if (kb.presses("up")){
+      player.collider = "dynamic";
+      player.vel.y = -9;
+    }
+  }
 }
