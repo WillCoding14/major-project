@@ -24,7 +24,7 @@ function setup() {
 function draw(){
   if (mouse.presses()) {
     //        (position, speed)
-    player.moveTo(mouse, 100);
+    player.moveTo(mouse, 10);
   }
   clear();
 }
