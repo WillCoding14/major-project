@@ -1,5 +1,6 @@
 let player;
 let ground;
+let platforms;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
