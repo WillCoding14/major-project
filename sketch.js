@@ -21,11 +21,8 @@ function setup() {
   world.gravity.y = 15;
 
   //start screen
-  backgroundimage = new Sprite();
-  backgroundimage.img = "assets/startbackgroundimg.png";
-  backgroundimage.collider = "static";
-  backgroundimage.img.scale.x = 2;
-  backgroundimage.img.scale.y = 2.2;
+  backgroundimage = new Sprite(width/2, height/2, width, height, "static");
+  backgroundimage.color = "black";
   
 
   button = new Sprite(width/2, height/2, 300, 100,"static");
