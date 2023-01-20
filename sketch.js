@@ -6,13 +6,13 @@ let backgroundimage;
 
 
 let jumpcharge = 0;
-let state = "start";
+let state = "main";
 
 
 function setup() {
   createCanvas(2050, 1000);
   //player and platforms creation
-  player = new Sprite(width/2, 300, 100, 100, "k");
+  player = new Sprite(width/2, 300, 100, 100, "dynamic");
   ground = new Sprite(width/2, height/2, width - 100, 30, "static");
   ground.collider = "static";
 
@@ -25,18 +25,25 @@ function setup() {
   
   button = new Sprite(width/2, height/2, 300, 100,"static");
   button.img = "assets/startbuttonimg.png";
-
-  // button.img.scale.x = 0.5;
-  // button.img.scale.y = 0.5;
-
-  backgroundimage = (0, 0, width, height);
 }
 
 function draw() {
   if (state === "start"){
-    mainScreen();
+    background(0);
+    player.visible = false;
+    ground.visible = false;
+    if (mouse.overlaps(button)){
+      button.img = "assets/startbuttonhoverimg.png";
+    }
+    else{
+      button.img = "assets/startbuttonimg.png";
+    }
+    if (button.mouse.presses){
+      state = "main";
+    }
+    clear();
   }
-  if (state === "main"){
+  else if (state === "main"){
     background(0);
     move();
     button.visible = false;
@@ -58,12 +65,12 @@ function mainScreen(){
   background(0);
   player.visible = false;
   ground.visible = false;
-  // if (button.mouse.hovering()){
-  //   button.img = "assets/startbuttonhoverimg.png";
-  // }
-  // else{
-  //   button.img = "assets/startbuttonimg.png";
-  // }
+  if (mouse.overlaps(button)()){
+    button.img = "assets/startbuttonhoverimg.png";
+  }
+  else{
+    button.img = "assets/startbuttonimg.png";
+  }
   if (button.mouse.presses){
     state = "main";
   }
