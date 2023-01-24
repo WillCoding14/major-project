@@ -28,6 +28,7 @@
       "mouse": true,
       "kb": true,
       "spriteArt": true,
+      "Group": true,
       
       "width": true,
       "height": true,

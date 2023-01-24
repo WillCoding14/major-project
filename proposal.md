@@ -9,7 +9,7 @@ At a base level, the goal is simply to climb up a series of obstacles
 ## Needs to have list
 
 - Working collision where the play can jump between platforms, hit their head on roofs, and bounce off walls
-- Different "screens" to jump between
+- Different "screens" to jump between 
 - An end goal
 - Start and victory screens
 - Music - depends on which zone player is on

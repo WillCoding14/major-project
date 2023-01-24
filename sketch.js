@@ -1,127 +1,175 @@
-<<<<<<< HEAD
-// set up canvas
-function setup() {
-  createCanvas(400, 400);
-  
-  // create player character sprite
-  player = createSprite(200, 200, 50, 50);
-  player.shapeColor = color(255, 0, 0);
-  
-  // create enemy sprite
-  enemy = createSprite(300, 200, 50, 50);
-  enemy.shapeColor = color(0, 0, 255);
-}
-
-// draw player and enemy sprites to canvas
-function draw() {
-  background(255);
-  drawSprites();
-}
-
-// move player sprite left and right using arrow keys
-function keyPressed() {
-  if (keyCode === LEFT_ARROW) {
-    player.position.x -= 10;
-  } else if (keyCode === RIGHT_ARROW) {
-    player.position.x += 10;
-  }
-}
-
-// move enemy sprite towards player sprite
-function mousePressed() {
-  enemy.velocity.x = (player.position.x - enemy.position.x) / 20;
-  enemy.velocity.y = (player.position.y - enemy.position.y) / 20;
-=======
-let player;
-let ground;
-let platforms;
-let button;
-let backgroundimage;
-
-
-let jumpcharge = 0;
+//Defining Variables
+let player, lava, platforms, orbs, backgroundImg, finishline;
+let lavaLevel = 40;
 let state = "main";
+let playerSize = 30;
+let ready = false;
+let sizzle;
 
-
-function setup() {
-  createCanvas(2050, 1000);
-  //player and platforms creation
-  player = new Sprite(width/2, 300, 100, 100, "dynamic");
-  ground = new Sprite(width/2, height/2, width - 100, 30, "static");
-  ground.collider = "static";
-
-  //world setup
-  world.gravity.y = 15;
-
-  //start screen
-  backgroundimage = new Sprite(width/2, height/2, width, height, "static");
-  backgroundimage.color = "black";
-  
-  button = new Sprite(width/2, height/2, 300, 100,"static");
-  button.img = "assets/startbuttonimg.png";
+//Loading sounds
+function preload(){
+  sizzle = "Assets/sizzle.mp3";
 }
 
-function draw() {
-  if (state === "start"){
-    background(0);
-    player.visible = false;
-    ground.visible = false;
-    if (mouse.overlaps(button)){
-      button.img = "assets/startbuttonhoverimg.png";
-    }
-    else{
-      button.img = "assets/startbuttonimg.png";
-    }
-    if (button.mouse.presses){
-      state = "main";
-    }
-    clear();
-  }
-  else if (state === "main"){
-    background(0);
-    move();
-    button.visible = false;
-    backgroundimage.visible = false;
+function setup() {
+  //World setup
+  new Canvas(windowWidth - 20, windowHeight - 20);
+  world.gravity.y = 13;
 
-    player.visible = true;
-    ground.visible = true;
-    if (kb.presses("space")){
-      jumpLogic();
-    }
-    else{
-      player.vel.x = 0;
-    }
+  // Sprite setup
+  player = new Sprite(width/16, 300, playerSize);
+  player.color = "black";
+  player.layer = 2;
+  /// player.img = "Assets/redball.png";
+
+  lava = new Sprite(width/2, height/2 + 400, width, 300, "static");
+  lava.img = "Assets/lavaimg.png";
+  lava.img.scale.x = 3;
+  lava.img.scale.y = 2;
+
+  backgroundImg = new Sprite(width/2, height/2, width, height, "none");
+  backgroundImg.layer = 0;
+  backgroundImg.img = "Assets/cavebackground.png";
+  backgroundImg.scale.x = 2;
+  backgroundImg.scale.y = 2;
+
+  finishline = new Sprite(width - 34, height/2, 40, height, "none");
+  finishline.img = "Assets/finishline.png";
+  finishline.img.rotation = 90;
+  finishline.collider = "static";
+
+  //Groups Setup
+  platforms = new Group();
+  orbs = new Group();
+
+  //Platforms setup
+  for (let i = 0; i < 7; i++){
+    let platform = new platforms.Sprite();
+  }
+
+  platforms.y = height/2;
+  platforms.collider = "static";
+  platforms.height = 5;
+  platforms.width = 30;
+  // platforms.img = "Assets/platform.png";
+
+  platforms[0].x = width/16;
+
+  platforms[1].x = width/8;
+  platforms[1].y = height/2 + 50;
+
+  platforms[2].x = width / 4;
+  platforms[2].y = height/2 - 25;
+
+  platforms[3].x = width/3 + 40;
+  platforms[3].y = height/2 - 25;
+
+  platforms[4].x = width/2 + 400;
+  platforms[4].y = height/2 + 150;
+
+  platforms[5].x = width/2 + 600;
+  platforms[5].y = height/2 + 150;
+
+  //Jump recharge (orbs) setup
+  for (let i = 0; i < 5; i++){
+    let orb = new orbs.Sprite();
+  }
+
+  orbs.width = 10;
+  orbs.height = 10;
+  orbs.collider = "static";
+  orbs.img = "Assets/orb.png";
+
+  orbs[0].x = width/6 + 20;
+  orbs[0].y = height/2;
+
+  orbs[1].x = width/2 - 100;
+  orbs[1].y = height/2 + 50;
+
+  orbs[2].x = width/2 + 100;
+  orbs[2].y = height/2 - 50;
+
+  orbs[3].x = width/2 + 250;
+  orbs[3].y = height/2 - 75;
+
+  orbs[4].x = width/2 + 750;
+  orbs[4].y = height/2 + 100;
+}
+
+function draw(){
+  //Start screen state
+  if (state === "start"){
+    startScreen();
+  }
+  //Main game state
+  else if (state === "main"){
+    playerMove();
+    checkReady();
+    playerJump();
+    deathCheck();
+  }
+  //Death state
+  else if (state === "death"){
+    deathScreen();
+  }
+
+  else if (state === "win"){
+    lava.remove();
   }
   clear();
 }
 
-function mainScreen(){
-  background(0);
-  player.visible = false;
-  ground.visible = false;
-  if (mouse.overlaps(button)()){
-    button.img = "assets/startbuttonhoverimg.png";
+function playerMove(){
+  //Move left
+  if (kb.pressing("left")){
+    player.vel.x = -3;
+  }
+  //Move right
+  else if (kb.pressing("right")){
+    player.vel.x = 3;
   }
   else{
-    button.img = "assets/startbuttonimg.png";
+    player.vel.x = 0;
   }
-  if (button.mouse.presses){
-    state = "main";
-  }
-  clear();
 }
 
-function jumpLogic() {
-  player.velocity.y = -5;
-  player.velocity.x = -5;
+function checkReady(){
+  if (player.collides(platforms) || player.overlaps(orbs)){
+    ready = true;
+    player.color = "green";
+  }
 }
 
-function move(){
-  if (kb.pressing("left")) {
-    player.vel.x = -5;
+function playerJump(){
+  if (ready === true){
+    if (kb.presses("space")){
+      player.vel.y = -5;
+      ready = true;
+      player.color = "black";
+    }
   }
-  else if (kb.pressing("right")) {
-    player.vel.x = 5;
+}
+
+function deathCheck(){
+  if (player.collides(lava)){
+    player.remove();
+    state = "death";
   }
->>>>>>> 9feb6d58af70855febb351dd663b60d9cbb72313
+}
+
+function winCheck(){
+  if (player.overlaps(finishline)){
+    player.remove();
+    state = "win";
+  }
+}
+
+// function toggleReady(){
+//   ready === !ready;
+// }
+
+function startScreen(){
+}
+
+function deathScreen(){
 }
